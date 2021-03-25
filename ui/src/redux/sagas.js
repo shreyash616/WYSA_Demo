@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {takeEvery, put} from 'redux-saga/effects'
+import {takeEvery, put, select} from 'redux-saga/effects'
 
 import {all} from 'redux-saga/effects'
 import { getKeyValue } from '../utils'
@@ -97,11 +97,35 @@ function * saveTime () {
     yield takeEvery(ACTION_TYPES.SAVE_TIME, watchSaveTime)
 }
 
+function * watchGoToStep (action) {    
+    yield put(actions.showApiLoader())     
+    const userServiceData = yield axios.post('http://localhost:3001/saveStep', action.payload).then((successData) => {                    
+        return successData.data
+    }).catch((failureData) => {            
+        return failureData
+    })
+    if (userServiceData instanceof Error) {
+        const stepData = state => state.globalData
+        const {step, userId} = yield select(stepData)
+        yield put (actions.saveStep(step, userId))
+    } else {
+        const step = getKeyValue(['data', 'data', 'step'], userServiceData)
+        const userId = getKeyValue(['data', 'data', 'userId'], userServiceData)
+        yield put (actions.saveStep(step, userId))        
+    }
+    yield put(actions.hideApiLoader())
+}
+
+function * goToStep () {
+    yield takeEvery(ACTION_TYPES.GO_TO_STEP, watchGoToStep)
+}
+
 export default function * rootSaga () {
     yield all([
         userDataSaga(),
         saveUsernameSaga(),
         saveStrugglePeriod(),
-        saveTime()
+        saveTime(),
+        goToStep()
     ])
 }

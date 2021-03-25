@@ -21,7 +21,8 @@ const mapStateToProps = state => ({
     loading: state.globalData.spinnerState.status,
     step: state.globalData.step,
     userId: state.globalData.userId,
-    saveUsernameData: state.saveUsernameData
+    saveUsernameData: state.saveUsernameData,
+    timeData: state.saveTimeData
 })
 
 const mapDispatchToProps = dispatch => ({

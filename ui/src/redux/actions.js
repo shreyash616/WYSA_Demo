@@ -18,6 +18,7 @@ export const SAVE_TIME = 'SAVE_TIME'
 export const SAVE_TIME_SUCCESS = 'SAVE_TIME_SUCCESS'
 export const SAVE_TIME_FAILURE = 'SAVE_TIME_FAILURE'
 export const CLEAR_TIME = 'CLEAR_TIME'
+export const GO_TO_STEP = 'GO_TO_STEP'
 
 export const showApiLoader = () => {
     return {
@@ -153,6 +154,13 @@ const clearTime = () => {
     }
 }
 
+const goToStep = (payload) => {
+    return {
+        type: GO_TO_STEP,
+        payload
+    }
+}
+
 const userDataActions = {
     getUserData,
     getUserDataSuccess,
@@ -164,7 +172,8 @@ const globalActions = {
     showApiLoader,
     hideApiLoader,
     saveStep,
-    clearStep
+    clearStep,
+    goToStep
 }
 
 const usernameActions = {

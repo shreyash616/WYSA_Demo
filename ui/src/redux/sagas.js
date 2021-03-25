@@ -74,10 +74,34 @@ function * saveStrugglePeriod () {
     yield takeEvery(ACTION_TYPES.SAVE_STRUGGLE_PERIOD, watchSaveStrugglePeriod)
 }
 
+// saga for saving both bedTime and wakeTime
+function * watchSaveTime (action) {  
+    yield put(actions.showApiLoader())     
+    const userServiceData = yield axios.post('http://localhost:3001/saveSleepWakeTime', action.payload).then((successData) => {                    
+        return successData.data
+    }).catch((failureData) => {            
+        return failureData
+    })
+    if (userServiceData instanceof Error) {
+        yield put (actions.saveTimeFailure(userServiceData))
+    } else {
+        const step = getKeyValue(['data', 'data', 'step'], userServiceData)
+        const userId = getKeyValue(['data', 'data', 'userId'], userServiceData)
+        yield put (actions.saveStep(step, userId))
+        yield put (actions.saveTimeSuccess(userServiceData))
+    }
+    yield put(actions.hideApiLoader())
+}
+
+function * saveTime () {
+    yield takeEvery(ACTION_TYPES.SAVE_TIME, watchSaveTime)
+}
+
 export default function * rootSaga () {
     yield all([
         userDataSaga(),
         saveUsernameSaga(),
-        saveStrugglePeriod()
+        saveStrugglePeriod(),
+        saveTime()
     ])
 }

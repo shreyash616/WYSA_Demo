@@ -14,6 +14,10 @@ export const SAVE_STRUGGLE_PERIOD = 'SAVE_STRUGGLE_PERIOD'
 export const SAVE_STRUGGLE_PERIOD_SUCCESS = 'SAVE_STRUGGLE_PERIOD_SUCCESS'
 export const SAVE_STRUGGLE_PERIOD_FAILURE = 'SAVE_STRUGGLE_PERIOD_FAILURE'
 export const CLEAR_STRUGGLE_PERIOD = 'CLEAR_STRUGGLE_PERIOD'
+export const SAVE_TIME = 'SAVE_TIME'
+export const SAVE_TIME_SUCCESS = 'SAVE_TIME_SUCCESS'
+export const SAVE_TIME_FAILURE = 'SAVE_TIME_FAILURE'
+export const CLEAR_TIME = 'CLEAR_TIME'
 
 export const showApiLoader = () => {
     return {
@@ -122,6 +126,33 @@ const clearStrugglePeriod = () => {
     }
 }
 
+const saveTime = (payload) => {
+    return {
+        type: SAVE_TIME,
+        payload
+    }
+}
+
+const saveTimeSuccess = (successData) => {
+    return {
+        type: SAVE_TIME_SUCCESS,
+        successData
+    }
+}
+
+const saveTimeFailure = (failureData) => {
+    return {
+        type: SAVE_TIME_FAILURE,
+        failureData
+    }
+}
+
+const clearTime = () => {
+    return {
+        type: CLEAR_TIME
+    }
+}
+
 const userDataActions = {
     getUserData,
     getUserDataSuccess,
@@ -150,12 +181,20 @@ const strugglePeriodActions = {
     clearStrugglePeriod
 }
 
+const timeActions = {
+    saveTime,
+    saveTimeSuccess,
+    saveTimeFailure,
+    clearTime
+}
+
 const actionCreators = Object.assign(
     {},
     globalActions,
     userDataActions,
     usernameActions,
-    strugglePeriodActions
+    strugglePeriodActions,
+    timeActions
 )
 
 export default actionCreators

@@ -11,14 +11,16 @@ import {
 
 const BedTime = (props) => {
 
-    const [time, setTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}`)
+    const getProperTimeDigit = value => String(value).length === 1 ? `0${value}` : value 
+
+    const [time, setTime] = useState(`${getProperTimeDigit(new Date().getHours())}:${getProperTimeDigit(new Date().getMinutes())}`)
 
     const saveBedTime = () => {
         const payload = {
             userId: props.userId,
             sleepTime: time
         }
-        props.actions.saveBedTime(payload)
+        props.actions.saveTime(payload)
     }
 
     return <Wrapper>

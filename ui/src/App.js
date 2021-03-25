@@ -14,6 +14,7 @@ import BedTime from './components/bed-time'
 import WakeTime from './components/wake-time'
 
 import {Container} from './Styles'
+import Success from './components/success';
 
 const mapStateToProps = state => ({
     userData: state.userData,
@@ -42,9 +43,9 @@ const App = (props) => {
     const steps = {
       '2': <StrugglePeriod {...props} />,
       '3': <BedTime {...props} />,
-      '4': <WakeTime {...props} />
-    }
-    console.log(props.step)
+      '4': <WakeTime {...props} />,
+      '5': <Success />
+    }    
     if(props.step){
       return steps[props.step]
     } else {
